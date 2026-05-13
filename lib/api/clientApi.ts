@@ -1,5 +1,6 @@
 import { Note } from '@/types/note';
 import { nextServer } from './api';
+import { User } from '@/types/user';
 
 const TOKEN = process.env.NEXT_PUBLIC_NOTEHUB_TOKEN;
 
@@ -70,7 +71,17 @@ export const deleteNote = async (noteId: string) => {
 };
 
 // register
-export const register = async () => {};
+export type RegisterRequest = {
+  email: string;
+  password: string;
+  userName: string;
+};
+
+export const register = async (data: RegisterRequest) => {
+  const response = await nextServer.post<User>('/auth/register', data);
+
+  return response.data;
+};
 
 // login
 export const login = async () => {};
