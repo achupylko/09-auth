@@ -84,7 +84,15 @@ export const register = async (data: RegisterRequest) => {
 };
 
 // login
-export const login = async () => {};
+export type LoginRequest = {
+  email: string;
+  password: string;
+};
+
+export const login = async (data: LoginRequest) => {
+  const response = await nextServer.post<User>('/auth/login', data);
+  return response.data;
+};
 
 // logout
 export const logout = async () => {};
