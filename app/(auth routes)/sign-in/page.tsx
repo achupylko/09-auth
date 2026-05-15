@@ -5,10 +5,12 @@ import { login, LoginRequest } from '@/lib/api/clientApi';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import css from './SignInPage.module.css';
+import { useAuthStore } from '@/lib/store/authStore';
 
 export default function SignIn() {
   const router = useRouter();
   const [error, setError] = useState('');
+  const setUser = useAuthStore(state => state.setUser);
 
   const handleSubmit = async (formData: FormData) => {
     try {
@@ -20,6 +22,9 @@ export default function SignIn() {
 
       // redirect or display an error
       if (response) {
+        // Set the user to global state
+        setUser(response);
+
         router.push('/profile');
       } else {
         setError('Invalid email or password');
