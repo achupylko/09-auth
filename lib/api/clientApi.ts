@@ -95,13 +95,27 @@ export const login = async (data: LoginRequest) => {
 };
 
 // logout
-export const logout = async () => {};
+export const logout = async (): Promise<void> => {
+  await nextServer.post('/auth/logout');
+};
 
 // check session
-export const checkSession = async () => {};
+type checkSessionRequest = {
+  success: boolean;
+};
+
+export const checkSession = async () => {
+  const response = await nextServer.get<checkSessionRequest>('/auth/session');
+
+  return response.data.success;
+};
 
 // get me
-export const getMe = async () => {};
+export const getMe = async () => {
+  const { data } = await nextServer.get<User>('/users/me');
+
+  return data;
+};
 
 // update me
 export const updateMe = async () => {};
