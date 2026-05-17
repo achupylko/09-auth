@@ -119,12 +119,13 @@ export const getMe = async () => {
 
 // update me
 export type UpdateUserRequest = {
-  userName?: string;
-  photoUrl?: string;
+  email?: string;
+  username?: string;
+  avatar?: string;
 };
 
 export const updateMe = async (payload: UpdateUserRequest) => {
-  const response = await nextServer.put<User>('/users/me', payload);
+  const response = await nextServer.patch<User>('/users/me', payload);
 
   return response.data;
 };
