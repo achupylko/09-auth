@@ -57,16 +57,17 @@ const EditProfile = () => {
     }));
   };
 
-  const handleSaveUser = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
 
     try {
       setIsSaving(true);
       setError(null);
 
-      await updateMe({ userName: formData.username });
+      await updateMe({
+        username: formData.username,
+      });
 
-      // message 'Profile updated'
       router.push('/profile');
     } catch {
       setError('Failed to update profile');
@@ -96,11 +97,12 @@ const EditProfile = () => {
           className={css.avatar}
         />
 
-        <form className={css.profileInfo} onSubmit={handleSaveUser}>
+        <form className={css.profileInfo} onSubmit={handleSubmit}>
           <div className={css.usernameWrapper}>
             <label htmlFor="username">Username:</label>
             <input
               id="username"
+              name="username"
               type="text"
               className={css.input}
               value={formData.username}
