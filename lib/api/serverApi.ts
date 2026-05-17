@@ -3,8 +3,6 @@ import { nextServer } from './api';
 import { cookies } from 'next/headers';
 import { User } from '@/types/user';
 
-const TOKEN = process.env.NEXT_PUBLIC_NOTEHUB_TOKEN;
-
 // fetch notes
 interface NoteListResponse {
   notes: Note[];
@@ -16,11 +14,12 @@ export const fetchNotes = async (
   tag: string | undefined,
   page: number
 ): Promise<NoteListResponse> => {
-  const response = await nextServer.get<NoteListResponse>('/notes', {
+  const cookieStore = await cookies();
+
+  const { data } = await nextServer.get<NoteListResponse>('/notes', {
     method: 'GET',
     headers: {
-      Accept: 'application/json',
-      Authorization: `Bearer ${TOKEN}`,
+      Cookie: cookieStore.toString(),
     },
     params: {
       search,
@@ -30,19 +29,20 @@ export const fetchNotes = async (
     },
   });
 
-  return response.data;
+  return data;
 };
 
 // fetch note by id
 export const fetchNoteById = async (id: string) => {
-  const response = await nextServer.get<Note>(`/notes/${id}`, {
+  const cookieStore = await cookies();
+
+  const { data } = await nextServer.get<Note>(`/notes/${id}`, {
     method: 'GET',
     headers: {
-      Accept: 'application/json',
-      Authorization: `Bearer ${TOKEN}`,
+      Cookie: cookieStore.toString(),
     },
   });
-  return response.data;
+  return data;
 };
 
 // get me
