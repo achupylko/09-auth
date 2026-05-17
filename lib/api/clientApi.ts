@@ -118,4 +118,13 @@ export const getMe = async () => {
 };
 
 // update me
-export const updateMe = async () => {};
+export type UpdateUserRequest = {
+  userName?: string;
+  photoUrl?: string;
+};
+
+export const updateMe = async (payload: UpdateUserRequest) => {
+  const response = await nextServer.put<User>('/users/me', payload);
+
+  return response.data;
+};
