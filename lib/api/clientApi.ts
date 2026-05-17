@@ -88,12 +88,12 @@ export const logout = async (): Promise<void> => {
 };
 
 // check session
-type checkSessionRequest = {
+type CheckSessionRequest = {
   success: boolean;
 };
 
 export const checkSession = async () => {
-  const response = await nextServer.get<checkSessionRequest>('/auth/session');
+  const response = await nextServer.get<CheckSessionRequest>('/auth/session');
 
   return response.data.success;
 };
