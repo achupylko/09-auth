@@ -1,9 +1,10 @@
 'use client';
 
 import { getMe, updateMe } from '@/lib/api/clientApi';
+import { useAuthStore } from '@/lib/store/authStore';
 import Image from 'next/image';
-import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
 import css from './EditProfilePage.module.css';
 
 type ProfileFormData = {
@@ -21,7 +22,7 @@ const initialState: ProfileFormData = {
 const EditProfile = () => {
   const router = useRouter();
   const [formData, setFormData] = useState(initialState);
-
+  const setUser = useAuthStore(state => state.setUser);
   const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -64,10 +65,11 @@ const EditProfile = () => {
       setIsSaving(true);
       setError(null);
 
-      await updateMe({
+      const updatedUser = await updateMe({
         username: formData.username,
       });
 
+      setUser(updatedUser);
       router.push('/profile');
     } catch {
       setError('Failed to update profile');
