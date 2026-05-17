@@ -1,6 +1,6 @@
 'use client';
 
-import { getNoteById } from '@/lib/api';
+import { fetchNoteById } from '@/lib/api/clientApi';
 import { useParams } from 'next/navigation';
 
 import css from './NoteDetails.module.css';
@@ -20,7 +20,7 @@ export default function NoteDetailsClient() {
     error,
   } = useQuery({
     queryKey: ['note', id],
-    queryFn: () => getNoteById(id),
+    queryFn: () => fetchNoteById(id),
     refetchOnMount: false,
   });
 
