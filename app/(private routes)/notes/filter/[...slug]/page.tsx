@@ -1,11 +1,11 @@
 import { fetchNotes } from '@/lib/api/serverApi';
-import NotesClient from './Notes.client';
 import {
   dehydrate,
   HydrationBoundary,
   QueryClient,
 } from '@tanstack/react-query';
 import { Metadata } from 'next';
+import NotesClient from './Notes.client';
 
 type Props = {
   params: Promise<{ slug: string[] }>;
